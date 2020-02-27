@@ -14,7 +14,7 @@ import Jetson.GPIO as GPIO
 from pca9685_driver import Device
 
 
-dev = Device(0x40,1)#endereco 0x40 , device 0,1,2,3,4,5,6 
+dev = Device(0x40,1)#endereco 0x40 , device(bus) 0,1,2,3,4,5,6 
 
 
 import time
