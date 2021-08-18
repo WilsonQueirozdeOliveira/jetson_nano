@@ -7,6 +7,7 @@ from approxeng.input.selectbinder import ControllerResource #controle
 
 import sys
 sys.path.append('/usr/local/lib/python3.6/dist-packages')# caminho da biblioteca pca9685_driver
+# sudo apt-get install build-essential libi2c-dev i2c-tools python-dev libffi-dev
 # sudo pip install PCA9685-driver
 sys.path.append('/opt/nvidia/jetson-gpio/lib/python')
 sys.path.append('/opt/nvidia/jetson-gpio/lib/python/Jetson/GPIO')
