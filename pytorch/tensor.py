@@ -14,3 +14,17 @@ z = torch.zeros([2,5])
 print("z = ",z,"\n")
 
 print("z shape = ",z.shape,"\n") 
+
+b = torch.rand([2,5])
+
+print(" b = torch.rand([2,5]) = ",b,"\n")
+
+print("b.view([1,10]) = ")
+
+print("b = ",b,"\n")
+
+a = b.view([1,10])
+
+print("a = b.view([1,10])")
+
+print("a = ",a)
