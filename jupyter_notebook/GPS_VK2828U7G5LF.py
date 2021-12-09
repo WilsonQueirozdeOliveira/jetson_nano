@@ -76,13 +76,20 @@ def read_gps():
          stopbits=serial.STOPBITS_ONE,)
     #$GPRMC,060556.00,A,2236.91418,N,11403.24669,E,0.13, 309.62,130214,,,D*7F
     while True:
-        msg = uart.readline().decode('utf-8','ignore')
-        if (msg[0:6] == "$GPRMC"):
-            data = msg.split(",")
-            if data[2] == 'A':
-                #print(msg)
-                return msg#string
-                break
+        try:
+            msg = uart.readline().decode('utf-8','ignore')
+            if (msg[0:6] == "$GPRMC"):
+                data = msg.split(",")
+                if data[2] == 'A':
+                    #print(msg)
+                    return msg#string
+                    break
+                else:
+                    return 0
+                    break
+        except:
+            return 0
+            break
 
 def read_latitude():
     uart = serial.Serial(port="/dev/ttyTHS1",
