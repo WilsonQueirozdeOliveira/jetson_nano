@@ -11,7 +11,12 @@ This repository conteins, all codes for my jetson nano devkit board.
 
 ### basics
 
-- pip install jetson-stats
+#### jtop
+- $ sudo apt-get update
+- $ sudo apt-get upgrade
+- $ sudo apt-get install python-pip
+- $ sudo -H pip install -U jetson-stats
+- $ sudo reboot
 
 ### synergy 
 
