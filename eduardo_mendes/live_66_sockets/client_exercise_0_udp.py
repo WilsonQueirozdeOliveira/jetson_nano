@@ -1,7 +1,7 @@
 # Echo client program
 import socket
 
-HOST = '192.168.3.200'    # The remote host
+HOST = '192.168.3.200'    # The remote host (ip from server)
 PORT = 50007              # The same port as used by the server
 
 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM, 
