@@ -2,7 +2,7 @@
 
 Development of an electric vehicle in scale with Jetson nano.
 
-|![plot](./img/cyber_nano.jpg)|
+|![plot](./docs/img/cyber_nano.jpg)|
 |:--:|
 | Cyber Nano first version |
 
@@ -20,7 +20,7 @@ Development of an electric vehicle in scale with Jetson nano.
 
 ### Baterry Pack
 
-|![plot](./img/IMG_20221101_205019132-01.jpeg)|
+|![plot](./docs/img/IMG_20221101_205019132-01.jpeg)|
 |:--:|
 | Lithium Cell Sanyo ur18650a |
 - Form factor: 18650
@@ -32,7 +32,7 @@ Development of an electric vehicle in scale with Jetson nano.
 - Charge current: 1505mA
 - Weight: 43.0g
 
-|![plot](./img/IMG_20221101_222507422-01.jpeg)
+|![plot](./docs/img/IMG_20221101_222507422-01.jpeg)
 |:--:|
 |Pack load test ur18650a 4P 2S|
 - Pack with 8p cells: 17200mAh
@@ -48,6 +48,6 @@ Development of an electric vehicle in scale with Jetson nano.
 - Charge current: 1750mA
 - Weight: 48.0g
 
-|![Alt text](./img/IMG_20221104_214909092-01.jpeg)
+|![Alt text](./docs/img/IMG_20221104_214909092-01.jpeg)
 |:--:|
 |Pack load test ur18650ZY 8P|
