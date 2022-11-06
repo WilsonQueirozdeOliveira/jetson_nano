@@ -34,7 +34,7 @@ Development of an electric vehicle in scale with Jetson nano.
 
 |![plot](./img/IMG_20221101_222507422-01.jpeg)
 |:--:|
-|Pack load test|
+|Pack load test ur18650a 4P 2S|
 - Pack with 8p cells: 17200mAh
 - Pack with 4P 2S cells: 8600mAh
 
@@ -47,3 +47,7 @@ Development of an electric vehicle in scale with Jetson nano.
 - max dischard current:  5A
 - Charge current: 1750mA
 - Weight: 48.0g
+
+|![Alt text](./img/IMG_20221104_214909092-01.jpeg)
+|:--:|
+|Pack load test ur18650ZY 8P|
