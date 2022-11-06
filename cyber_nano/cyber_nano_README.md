@@ -20,6 +20,8 @@ Development of an electric vehicle in scale with Jetson nano.
 
 ### Baterry Pack
 
+#### Lithium Cell Sanyo ur18650a
+
 |![plot](./docs/img/IMG_20221101_205019132-01.jpeg)|
 |:--:|
 | Lithium Cell Sanyo ur18650a |
@@ -31,12 +33,14 @@ Development of an electric vehicle in scale with Jetson nano.
 - max dischard current: 2.0CA = 4.30A
 - Charge current: 1505mA
 - Weight: 43.0g
+#### Pack
+- Pack with 8p cells: 17200mAh
+- Pack with 4P 2S cells: 8600mAh
 
 |![plot](./docs/img/IMG_20221101_222507422-01.jpeg)
 |:--:|
 |Pack load test ur18650a 4P 2S|
-- Pack with 8p cells: 17200mAh
-- Pack with 4P 2S cells: 8600mAh
+
 
 #### Lithium Cell Sanyo ur18650ZY
 - Form factor: 18650
@@ -47,6 +51,9 @@ Development of an electric vehicle in scale with Jetson nano.
 - max dischard current:  5A
 - Charge current: 1750mA
 - Weight: 48.0g
+#### Pack
+- Pack with 8p cells: 19600mAh
+- Pack with 4P 2S cells: 9800mAh
 
 |![Alt text](./docs/img/IMG_20221104_214909092-01.jpeg)
 |:--:|
