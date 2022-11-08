@@ -4,7 +4,7 @@ import numpy as np
 import time
 import base64
 
-BUFF_SIZE = 1024
+BUFF_SIZE = 65536
 server_socket = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 server_socket.setsockopt(socket.SOL_SOCKET,socket.SO_RCVBUF,BUFF_SIZE)
 host_name = socket.gethostname()
@@ -22,9 +22,7 @@ while True:
 	msg,client_addr = server_socket.recvfrom(BUFF_SIZE)
 	print('GOT connection from ',client_addr)
 	WIDTH=320
-	print("width")
 	while(vid.isOpened()):
-		print("while")
 		_,frame = vid.read()
 		frame = imutils.resize(frame,width=WIDTH)
 		encoded,buffer = cv2.imencode('.jpg',frame,[cv2.IMWRITE_JPEG_QUALITY,80])
