@@ -1,7 +1,7 @@
 # codes_nano
 This repository conteins, all codes for my jetson nano devkit board.
 
-![plot](./img/IMG_20221029_161144623-02.jpeg)
+![plot](./docs/img/IMG_20221029_161144623-02.jpeg)
 
 ## Dependecies
 
