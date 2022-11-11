@@ -3,18 +3,22 @@ import socket
 HOST = '192.168.3.202'
 PORT = 9999
 
-BUFER_SIZE = 1024 
+BUF_SIZE = 1024 
 
 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP) as s:
 
     s.bind((HOST, PORT))
 
-    data_from_client = 0
+    while(True):
 
-    while(not data_from_client):
+        data_from_client = s.recvfrom(BUF_SIZE)
 
-        data_from_client = s.recvfrom(BUFER_SIZE)
+        client_msg , client_address = data_from_client
 
-        print('data_from_client', data_from_client)
+        print('data_from_client: ', data_from_client)
 
-        s.sendto(b'string from server',(HOST, PORT))
+        print('client_msg: ', client_msg)
+
+        print('client_address: ', client_address)
+
+        s.sendto(b'string from server', client_address)
