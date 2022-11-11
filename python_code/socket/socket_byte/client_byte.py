@@ -1,7 +1,7 @@
 import socket
 
-HOST = '192.168.3.200'
-PORT = 50007
+HOST = '192.168.3.202'
+PORT = 9999
 
 BUFER_SIZE = 1024 
 
