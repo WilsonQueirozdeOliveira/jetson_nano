@@ -11,4 +11,10 @@ with socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP) as s:
 
     data_from_server = s.recvfrom(BUF_SIZE)
 
-    print('Received: ', repr(data_from_server))
+    server_msg , server_address = data_from_server
+
+    print('data_from_server: ', repr(data_from_server))
+    
+    print('server_msg: ', server_msg)
+
+    print('server_address: ', server_address)
