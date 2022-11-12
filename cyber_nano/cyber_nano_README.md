@@ -71,5 +71,7 @@ This BMS control the carge of one lithium cell.
 
 - 3 - 4.2V range
 - 5A max current output
+- 1/ DW01-A lithium battery protection IC
+- 2/ 8205 1k1504 mosfet (Fs8205a)
 
 
