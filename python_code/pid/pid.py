@@ -12,7 +12,7 @@ Ki=10
 
 Kd=1
 
-sample_time = .2
+sample_time = .01
 
 last_erro = 0
 
@@ -23,7 +23,7 @@ def pid(setpoint, feedback, output):
 
     KP = erro*Kp
 
-    KI = erro*Ki*sample_time
+    KI = erro*(Ki*sample_time)
 
     last_erro = erro
 
@@ -34,7 +34,7 @@ def pid(setpoint, feedback, output):
     return output
 
 while True:
+    feedback = output # sensor from output
     output = pid(setpoint, feedback, output)
     print('output=', output)
-    feedback = output # sensor from output
 
