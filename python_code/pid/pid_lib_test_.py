@@ -7,5 +7,5 @@ output = 0 # sensor from output
 
 while True:
     feedback = output # sensor from output
-    output = pid.pid_setpoint_(feedback=feedback,setpoint=10,sample_time=0.01)
+    output = pid.pid_update_(feedback=feedback,setpoint=10,sample_time=0.01)
     print('return output:',output)

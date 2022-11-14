@@ -12,7 +12,7 @@ class pid:
         self.sample_time = sample_time
         self.last_erro = 0
 
-    def pid_setpoint_(self,feedback,setpoint,sample_time):
+    def pid_update_(self,feedback,setpoint,sample_time):
 
         self.feedback = feedback # new feedback
         self.setpoint = setpoint # new setpoint
