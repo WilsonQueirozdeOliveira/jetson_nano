@@ -1,32 +1,36 @@
-from time import sleep
+import time
 
 class pid:
     def __init__(self, output, setpoint,
-        feedback, Kp, Ki, Kd, sample_time):
+        feedback, Kp, Ki, Kd):
         self.output = output
         self.setpoint = setpoint
         self.feedback = feedback
         self.Kp = Kp
         self.Ki = Ki
         self.Kd = Kd
-        self.sample_time = sample_time
+        self.last_time = time.time()
         self.last_erro = 0
 
-    def pid_update_(self,feedback,setpoint,sample_time):
+    def pid_update_(self,feedback,setpoint,delta_time_delay=0.01):
+        
+        if delta_time_delay:
+            time.sleep(delta_time_delay)
 
         self.feedback = feedback # new feedback
         self.setpoint = setpoint # new setpoint
-        self.sample_time = sample_time #new semple_time
 
-        sleep(self.sample_time)
+        delta_time = time.time() - self.last_time 
+        self.last_time = time.time()
+        #print('delta_time: ',delta_time)
 
         erro = self.setpoint - self.feedback
         # KP
         KP = erro*self.Kp
         # KI
-        KI = erro*(self.Ki*self.sample_time)
+        KI = erro*(self.Ki*delta_time)
         # KD
-        KD = self.Kd*((self.last_erro-erro)/self.sample_time)
+        KD = self.Kd*((self.last_erro-erro)/delta_time)
         # camp KD to 0
         if (KD > 1000) or (KD < -1000) :
             KD = 0
