@@ -4,7 +4,7 @@ import numpy as np
 import time
 import base64
 
-BUFF_SIZE = 65536
+BUFF_SIZE = 65507 
 server_socket = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 server_socket.setsockopt(socket.SOL_SOCKET,socket.SO_RCVBUF,BUFF_SIZE)
 host_name = socket.gethostname()
@@ -15,13 +15,15 @@ socket_address = (host_ip,port)
 server_socket.bind(socket_address)
 print('Listening at:',socket_address)
 
-vid = cv2.VideoCapture('nvarguscamerasrc ! video/x-raw(memory:NVMM), width=3280, height=2464, format=NV12, framerate=21/1 ! nvvidconv flip-method=0 ! video/x-raw, width=320, height=240, format=BGRx ! videoconvert ! video/x-raw,format=BGR ! appsink', cv2.CAP_GSTREAMER) #  replace 'rocket.mp4' with 0 for webcam
+vid = cv2.VideoCapture(
+	'nvarguscamerasrc ! video/x-raw(memory:NVMM), width=1920, height=1080, format=NV12, framerate=29/1 ! nvvidconv flip-method=0 ! video/x-raw, width=480, height=270, format=BGRx ! videoconvert ! video/x-raw,format=BGR ! appsink'
+	, cv2.CAP_GSTREAMER) #  replace 'rocket.mp4' with 0 for webcam
 fps,st,frames_to_count,cnt = (0,0,20,0)
 
 while True:
 	msg,client_addr = server_socket.recvfrom(BUFF_SIZE)
 	print('GOT connection from ',client_addr)
-	WIDTH=320
+	WIDTH=480
 	while(vid.isOpened()):
 		_,frame = vid.read()
 		frame = imutils.resize(frame,width=WIDTH)
