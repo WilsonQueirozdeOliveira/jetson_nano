@@ -5,7 +5,7 @@ import numpy as np
 import time
 import base64
 
-BUFF_SIZE = 65536
+BUFF_SIZE = 65507 
 client_socket = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 client_socket.setsockopt(socket.SOL_SOCKET,socket.SO_RCVBUF,BUFF_SIZE)
 host_name = socket.gethostname()
