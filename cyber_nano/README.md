@@ -75,3 +75,14 @@ This BMS control the carge of one lithium cell.
 - 2/ 8205 1k1504 mosfet (Fs8205a)
 
 
+## Steering control
+
+- max rigth 1ms pulse at 50hz ~205 on pca9685 driver
+- max left 1.7ms pulse at 50hz ~348 on pca9685 driver
+
+PWM Driver: pca9685 I²c pwm resolution 12bits\
+1/50hz = 20ms periode\
+20ms/2¹² = 4.882ms\
+4,8828125*204.8 = 1ms pulse
+4,8828125*348.16 = 1.7ms pulse
+
