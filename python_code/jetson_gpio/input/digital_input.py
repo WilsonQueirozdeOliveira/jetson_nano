@@ -2,14 +2,23 @@
 import RPi.GPIO as GPIO
 import time
 
-time.sleep(1)
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(15,GPIO.IN)
 GPIO.setup(29,GPIO.IN)
-ss1 = GPIO.input(15)
-ss2 = GPIO.input(29)
-print('ss1',ss1)
-print('ss2',ss2)
+input_1 = GPIO.input(15)
+input_2 = GPIO.input(29)
 
-time.sleep(0.5)
+count = 0
+while count < 20 :
+    count += 1
+    time.sleep(1)
+    input_1 = GPIO.input(15)
+    input_2 = GPIO.input(29)
+    print('count: ',count)
+    print('input_1: ',input_1)
+    print('input_2: ',input_2)
+GPIO.cleanup()
+
+
+
