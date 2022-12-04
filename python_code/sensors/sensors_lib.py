@@ -31,10 +31,10 @@ class wheel_sensor: # sensor tcrt500(KY-033)
             read_gpio = GPIO.input(self.gpio_input)
 
         self.turn_time = time.time() - self.start_time
-        print('self.turn_time: ',self.turn_time)
+        #print('self.turn_time: ',self.turn_time)
 
         rps = 1/self.turn_time # (1 second) / turn_time
-        print('rps: ',rps)
+        #print('rps: ',rps)
                             
         meters_per_second = rps*self.tire_perimeter_m
 
