@@ -33,7 +33,8 @@ Development of an electric vehicle in scale with Jetson nano.
 - max dischard current: 2.0CA = 4.30A
 - Charge current: 1505mA
 - Weight: 43.0g
-#### Battery Pack
+- internal resistence:
+#### Battery Pack plastic spring holder
 - Pack with 8p cells: 17200mAh
 - Pack with 4P 2S cells: 8600mAh
 
@@ -44,6 +45,10 @@ Development of an electric vehicle in scale with Jetson nano.
 
  Lithium Cell Sanyo ur18650ZY
 
+|![plot](./docs/img/IMG_20221209_114257347-01.jpeg)|
+|:--:|
+| Lithium Cell Sanyo ur18650ZY |
+
 - Form factor: 18650
 - Manufacture: Sanyo ur18650ZY
 - Capacity: 2450mAh
@@ -52,7 +57,8 @@ Development of an electric vehicle in scale with Jetson nano.
 - max dischard current:  5A
 - Charge current: 1750mA
 - Weight: 48.0g
-#### Battery Pack
+- internal resistence: ~$300 \mathsf{m\Omega}$
+#### Battery Pack plastic spring holder
 - Pack with 8p cells: 19600mAh
 - Pack with 4P 2S cells: 9800mAh
 
@@ -73,6 +79,20 @@ This BMS control the carge of one lithium cell.
 - 5A max current output
 - 1/ DW01-A lithium battery protection IC
 - 2/ 8205 1k1504 mosfet (Fs8205a)
+
+### Spot welder
+
+|![Alt text](./docs/img/IMG_20221209_090701773-01.jpeg)
+|:--:|
+|Spot welder|
+
+|![Alt text](./docs/img/IMG_20221209_091229549-01.jpeg)
+|:--:|
+|Spot welder specifications|
+
+### Cell with BMS
+
+#### Discarge test
 
 
 ## Steering control
