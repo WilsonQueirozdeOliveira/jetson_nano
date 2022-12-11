@@ -57,7 +57,7 @@ Development of an electric vehicle in scale with Jetson nano.
 - max dischard current:  5A
 - Charge current: 1750mA
 - Weight: 48.0g
-- internal resistence: ~$300 \mathsf{m\Omega}$
+- internal resistence: 
 #### Battery Pack plastic spring holder
 - Pack with 8p cells: 19600mAh
 - Pack with 4P 2S cells: 9800mAh
@@ -107,7 +107,7 @@ This BMS control the carge of one lithium cell.
 |![Alt text](./docs/img/IMG_20221209_171859044-01.jpeg)
 |![Alt text](./docs/img/IMG_20221209_170932922-01_bms18650ZY_.jpeg)
 |:--:|
-|Cell with BMS discarge test|
+|Cell with BMS discarge test (internal resistence: ~ $300 \mathsf{m\Omega}$)|
 
 ### Pack with BMS spot welded
 
@@ -132,6 +132,13 @@ This BMS control the carge of one lithium cell.
 |![Alt text](./docs/img/IMG_20221210_154118815-01.jpeg)
 |:--:|
 |Pack compact model weight (cell ur18650ZY)|
+
+### Pack compact model max discharge test (9.8A) (cell ur18650ZY)
+
+|![Alt text](./docs/img/IMG_20221211_114537817-01.jpeg)
+|![Alt text](./docs/img/IMG_20221211_121246421-01.jpeg)
+|:--:|
+|Pack compact model max discharge test (9.8A) (cell ur18650ZY)|
 
 ### Pack removable cell model weight (cell ur18650a)
 
