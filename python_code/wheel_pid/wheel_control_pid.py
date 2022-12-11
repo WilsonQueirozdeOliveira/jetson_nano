@@ -12,7 +12,7 @@ wheel_output_pwm = 1
 
 whell_rear_left = wheel_sensor(gpio_input=15,tire_diameter_m=0.067)
 
-car_velocity_setpoint = 1.8
+car_velocity_setpoint = 1.8 # (1.8 min)
 
 pid_whell = pid(output=0, 
                 setpoint=car_velocity_setpoint,
