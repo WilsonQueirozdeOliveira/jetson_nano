@@ -92,8 +92,52 @@ This BMS control the carge of one lithium cell.
 
 ### Cell with BMS
 
-#### Discarge test
+|![Alt text](./docs/img/IMG_20221209_093912468-01.jpeg)
+|:--:|
+|Cell with BMS|
 
+### Cell spot welded
+
+|![Alt text](./docs/img/IMG_20221209_092242936-02.jpeg)
+|:--:|
+|Cell spot welded|
+
+#### Cell with BMS discarge test
+
+|![Alt text](./docs/img/IMG_20221209_171859044-01.jpeg)
+|![Alt text](./docs/img/IMG_20221209_170932922-01_bms18650ZY_.jpeg)
+|:--:|
+|Cell with BMS discarge test|
+
+### Pack with BMS spot welded
+
+|![Alt text](./docs/img/IMG_20221209_212316730-01.jpeg)
+|:--:|
+|Pack with BMS spot welded|
+
+### Pack top wiring
+
+|![Alt text](./docs/img/IMG_20221210_151333710-01.jpeg)
+|:--:|
+|Pack top wiring|
+
+### Pack botton wiring
+
+|![Alt text](./docs/img/IMG_20221210_151859063-01.jpeg)
+|:--:|
+|Pack botton wiring|
+
+### Pack compact model weight (cell ur18650ZY)
+
+|![Alt text](./docs/img/IMG_20221210_154118815-01.jpeg)
+|:--:|
+|Pack compact model weight (cell ur18650ZY)|
+
+### Pack removable cell model weight (cell ur18650a)
+
+|![Alt text](./docs/img/IMG_20221210_154146762-01.jpeg)
+|:--:|
+|Pack removable cell model weight (cell ur18650a)|
 
 ## Steering control
 
@@ -107,4 +151,6 @@ PWM Driver: pca9685 I²c 12bits pwm resolution \
 0.0048828125 * 204.8 = 1ms pulse\
 0.0048828125 * 286.72 = 1.4ms pulse\
 0.0048828125 * 348.16 = 1.7ms pulse
+
+## Eletric Motor control
 
