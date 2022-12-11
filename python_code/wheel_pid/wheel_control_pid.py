@@ -12,11 +12,15 @@ wheel_output_pwm = 1
 
 whell_rear_left = wheel_sensor(gpio_input=15,tire_diameter_m=0.067)
 
-pid_whell = pid(output=0, setpoint=3,feedback=0, Kp=0.1, Ki=1, Kd=0)
+car_velocity_setpoint = 1.8
 
-pid_wheel_output_pwm = 300
+pid_whell = pid(output=0, 
+                setpoint=car_velocity_setpoint,
+                feedback=0, Kp=0.4, Ki=9, Kd=0)
 
-dev.set_pwm(wheel_output_pwm, pid_wheel_output_pwm)
+#pid_wheel_output_pwm = 300
+
+#dev.set_pwm(wheel_output_pwm, pid_wheel_output_pwm)
 
 count = 0
 while count < 200:
@@ -25,10 +29,11 @@ while count < 200:
     print('m/s: ', whell_rear_left.speed_meters_per_second())
 
     feedback = whell_rear_left.speed_meters_per_second() # sensor from output
-    pid_output = pid_whell.pid_update_(feedback=feedback,setpoint=3)
+    pid_output = pid_whell.pid_update_(feedback=feedback,
+                                    setpoint=car_velocity_setpoint)
     print('pid_output:',pid_output)
 
-    pid_wheel_output_pwm = int(330-(pid_output)+0.2)
+    pid_wheel_output_pwm = int(330-(pid_output))
 
     print('pid_wheel_output_pwm: ',pid_wheel_output_pwm)
 
