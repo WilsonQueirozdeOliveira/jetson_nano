@@ -16,7 +16,7 @@ server_socket.bind(socket_address)
 print('Listening at:',socket_address)
 
 vid = cv2.VideoCapture(
-	'nvarguscamerasrc ! video/x-raw(memory:NVMM), width=1920, height=1080, format=NV12, framerate=29/1 ! nvvidconv flip-method=0 ! video/x-raw, width=480, height=270, format=BGRx ! videoconvert ! video/x-raw,format=BGR ! appsink'
+	'nvarguscamerasrc ! video/x-raw(memory:NVMM), width=3264, height=1848, format=NV12, framerate=28/1 ! nvvidconv flip-method=2 ! video/x-raw, width=480, height=270, format=BGRx ! videoconvert ! video/x-raw,format=BGR ! appsink'
 	, cv2.CAP_GSTREAMER) #  replace 'rocket.mp4' with 0 for webcam
 fps,st,frames_to_count,cnt = (0,0,20,0)
 
