@@ -37,6 +37,7 @@ while count < 200:
 
     print('pid_wheel_output_pwm: ',pid_wheel_output_pwm)
 
+    # it is in reverse 300 max reverse 330 stop
     if pid_wheel_output_pwm > 330:
         pid_wheel_output_pwm = 330
 
