@@ -1,8 +1,7 @@
 import time
 
 class pid:
-    def __init__(self, output, setpoint,
-        feedback, Kp, Ki, Kd):
+    def __init__(self, output, setpoint, feedback, Kp, Ki, Kd):
         self.output = output
         self.setpoint = setpoint
         self.feedback = feedback
