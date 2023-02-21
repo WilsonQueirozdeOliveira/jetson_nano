@@ -4,6 +4,7 @@ sys.path.insert(1, '../sensors')
 from pid_lib import pid
 from sensors_lib import wheel_sensor
 from pca9685_driver import Device
+import time
 
 dev = Device(0x40,1)
 dev.set_pwm_frequency(50)
@@ -18,9 +19,12 @@ pid_whell = pid(output=0,
                 setpoint=car_velocity_setpoint,
                 feedback=0, Kp=0.4, Ki=9, Kd=0)
 
-#pid_wheel_output_pwm = 300
-
-#dev.set_pwm(wheel_output_pwm, pid_wheel_output_pwm)
+# reverse need a pulse to start
+pid_wheel_output_pwm = 280
+dev.set_pwm(wheel_output_pwm, pid_wheel_output_pwm)
+time.sleep(0.1)
+pid_wheel_output_pwm = 330
+dev.set_pwm(wheel_output_pwm, pid_wheel_output_pwm)
 
 count = 0
 while count < 200:
