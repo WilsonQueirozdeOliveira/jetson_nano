@@ -12,7 +12,7 @@ class wheel_sensor: # sensor tcrt500(KY-033)
         self.last_read_gpio = 0
         self.start_time = 0
         self.time_out = 0
-        self.time_out_limit = 0.1
+        self.time_out_limit = 0.05
         self.time_out_return_meters_per_second = 0.0
 
     def speed_meters_per_second(self):
