@@ -12,7 +12,7 @@ while count < 200:
     car.set_steer(50)  # set the steering angle to 50 (0 to 100)
 
     car.set_direction("forward")  # start moving forward
-    car.set_speed(1.8)  # set the car speed to x m/s
+    car.set_speed(0.9)  # set the car speed to x m/s
     
     time.sleep(0.1)  # wait for 1 seconds
 

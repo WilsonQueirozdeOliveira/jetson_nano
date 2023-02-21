@@ -17,7 +17,7 @@ class CarControl:
         self.output_steer = 0
         self.output_speed = 0
         self.odometer = odometer(wheel_sensor_pin_rear_left, wheel_sensor_pin_rear_right, wheel_diameter_m)  # initialize the odometer
-        self.speed_pid = pid(0, 0, 0, 0.4, 9, 0)  # initialize the speed PID controller
+        self.speed_pid = pid(0, 0, 0, 0.4, 8, 0)  # initialize the speed PID controller
         self.direction = 0
         self.odometer_thread = threading.Thread(target=self._update_odometer_loop, daemon=True)
         self.odometer_thread.start()
@@ -39,10 +39,10 @@ class CarControl:
         print('self.output_speed: ', self.output_speed)
         
         if self.direction == "forward":
-            pid_wheel_output_pwm = int(35*(self.output_speed))
+            pid_wheel_output_pwm = 70*(self.output_speed)
             self.actuators.set_motor_forward(pid_wheel_output_pwm)  # set motor speed forward
         elif self.direction == "reverse":
-            pid_wheel_output_pwm = int(35*(self.output_speed))
+            pid_wheel_output_pwm = 70*(self.output_speed)
             self.actuators.set_motor_reverse(pid_wheel_output_pwm)  # set motor speed in reverse
 
     def set_direction(self, direction):
