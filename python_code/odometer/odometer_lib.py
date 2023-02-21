@@ -21,13 +21,14 @@ class odometer:
         dt = time_now - self.time_start
 
         self.speed_left = self.sensor_left.speed_meters_per_second()
-        print('self.speed_left: ', self.speed_left)
+        #print('self.speed_left: ', self.speed_left)
         self.speed_right = self.sensor_right.speed_meters_per_second()
-        print('self.speed_right: ', self.speed_right)
+        #print('self.speed_right: ', self.speed_right)
         self.speed_avg = (self.speed_left + self.speed_right) / 2
 
         self.distance_left += self.speed_left * dt
         self.distance_right += self.speed_right * dt
         self.distance_total = (self.distance_left + self.distance_right) / 2
+        #print('self.distance_total: ', self.distance_total)
 
         self.time_start = time_now
