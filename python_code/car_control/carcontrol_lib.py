@@ -36,11 +36,14 @@ class CarControl:
         feedback = self.odometer.speed_avg  # get current speed for feedback term
         print('self.odometer.speed_avg: ', self.odometer.speed_avg)
         self.output_speed = self.speed_pid.pid_update_(feedback, setpoint)  # update PID controller
+        print('self.output_speed: ', self.output_speed)
         
         if self.direction == "forward":
-            self.actuators.set_motor_forward(self.output_speed)  # set motor speed forward
+            pid_wheel_output_pwm = int(35*(self.output_speed))
+            self.actuators.set_motor_forward(pid_wheel_output_pwm)  # set motor speed forward
         elif self.direction == "reverse":
-            self.actuators.set_motor_reverse(self.output_speed)  # set motor speed in reverse
+            pid_wheel_output_pwm = int(35*(self.output_speed))
+            self.actuators.set_motor_reverse(pid_wheel_output_pwm)  # set motor speed in reverse
 
     def set_direction(self, direction):
         if direction == "forward":
@@ -54,3 +57,6 @@ class CarControl:
     def cleanup(self):
         self.actuators.cleanup()  # clean up the actuators
         self.odometer.cleanup()  # clean up the odometer
+
+    def set_stop(self):
+        self.actuators.set_motor_forward(0)
