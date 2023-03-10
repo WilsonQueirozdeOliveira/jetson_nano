@@ -12,3 +12,6 @@ VID-20221211-WA0008.mp4
 python_code/actuators/__pycache__/
 python_code/car_control/__pycache__/
 python_code/odometer/__pycache__/
+python_code/odometer/odometer_lib.pyc
+python_code/sensors/sensors_lib.pyc
+
