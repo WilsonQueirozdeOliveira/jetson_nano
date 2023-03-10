@@ -9,6 +9,7 @@ class wheel_sensor: # sensor tcrt500(KY-033)
         self.tire_perimeter_m = self.tire_diameter_m*math.pi
         #print('self.tire_perimeter_m: ',self.tire_perimeter_m)
         self.turn_time = 1
+        self.turn_count = 0
         self.last_read_gpio = 0
         self.start_time = 0
         self.time_out = 0
@@ -44,6 +45,9 @@ class wheel_sensor: # sensor tcrt500(KY-033)
 
         self.turn_time = time.time() - self.start_time
         #print('self.turn_time: ',self.turn_time)
+
+        self.turn_count += 1
+        #print('turn_count: ',self.turn_count)
 
         rps = 1/self.turn_time # (1 second) / turn_time
         #print('rps: ',rps)
