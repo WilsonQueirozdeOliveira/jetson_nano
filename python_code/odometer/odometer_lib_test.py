@@ -1,6 +1,15 @@
-from odometer_lib import odometer
-import time
+#from odometer_lib import odometer
+#import time
 
+from odometer_lib import c_odometer
+
+c_odometer = c_odometer()
+
+while (true)
+    avg_speed = c_odometer.avg_speed()
+
+
+'''
 # GPIO input pins for the left and right wheels
 GPIO_INPUT_LEFT = 15
 GPIO_INPUT_RIGHT = 29
@@ -19,3 +28,5 @@ while True:
     print("Total distance:", my_odometer.distance_total, "meters")
     print("Average speed:", my_odometer.speed_avg, "meters per second")
     time.sleep(1)
+
+'''
