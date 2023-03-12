@@ -1,11 +1,22 @@
 import sys
 sys.path.insert(1, '../sensors')
 
-import time
-from sensors_lib import wheel_sensor
+#import time
+#from sensors_lib import wheel_sensor 
 
-import threading
+from sensors_lib import c_speed_sensor
 
+#import threading
+
+class c_odometer:
+    def __init__(self)
+        self.c_speed_sensor = c_speed_sensor()
+        self.avg_speed = 0
+        
+    def update_c_odometer(self):
+        self.avg_speed = self.c_speed_sensor.avg_speed()
+        return avg_speed
+'''
 class odometer:
     def __init__(self, gpio_input_left, gpio_input_right, tire_diameter_m): # 15, 29, 0.067
         self.sensor_left = wheel_sensor(gpio_input_left, tire_diameter_m)
@@ -48,3 +59,4 @@ class odometer:
 
         
         self.distance_total = (self.distance_left + self.distance_right) / 2
+
