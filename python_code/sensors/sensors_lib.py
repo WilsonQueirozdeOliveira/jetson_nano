@@ -1,7 +1,28 @@
-import math
-import RPi.GPIO as GPIO
-import time
+#!/usr/bin/env python3
+#import math
+#import RPi.GPIO as GPIO
+#import time
+import ctypes
 
+class c_speed_sensor:
+    def __init__(self):
+        self.avg_speed = 0
+
+    def avg_speed_update(self):
+        # Load the shared library containing the C function
+        lib = ctypes.cdll.LoadLibrary('./c_speed_sensor.so')
+
+        # Declare the argument and return types of the C function
+        lib.get_speed.restype = ctypes.c_float
+
+        # Call the C function and print its return value
+        speed = lib.get_speed()
+
+        self.avg_speed = speed
+
+        return self.avg_speed
+
+'''
 class wheel_sensor: # sensor tcrt500(KY-033)
     def __init__(self,gpio_input,tire_diameter_m):
         self.gpio_input = gpio_input
@@ -60,3 +81,5 @@ class wheel_sensor: # sensor tcrt500(KY-033)
         GPIO.cleanup()
 
         return meters_per_second
+'''
+
