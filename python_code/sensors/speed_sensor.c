@@ -40,14 +40,18 @@ double read_gpio(int pin) {
 
    // Configure the line for input and rising-edge interrupt events
    ret = gpiod_line_request_rising_edge_events(line, "my_program");
+   //ret = gpiod_line_request(line, &config, req_flag);
    if (ret < 0) {
       printf("Failed to request GPIO interrupt events\n");
+      gpiod_line_release(line);
+      gpiod_chip_close(chip);
    }
 
 
    // if pin 29(linux149)= up counter1++
-   while(true) {
-      
+   int counter = 0;
+   while(counter) {
+      counter++;
       clock_gettime(CLOCK_MONOTONIC, &start_time);
 
       ret = gpiod_line_event_wait(line, NULL);
@@ -65,13 +69,8 @@ double read_gpio(int pin) {
                   (double)(end_time.tv_nsec - start_time.tv_nsec) / 1000000000.0;
 
       printf("Elapsed time : %f seconds\n", elapsed_time);
-
-      //gpiod_line_release(line);
-      //gpiod_chip_close(chip);
-
-      return elapsed_time;
    }
-
+   return elapsed_time;
 }
 
 void* wheel_timer_1(void* arg) {
@@ -98,9 +97,6 @@ void threads_read(){
 
    pthread_join(thread_id1, NULL);
    pthread_join(thread_id2, NULL);
-
-   gpiod_line_release(line);
-   gpiod_chip_close(chip);
 
 }
 
