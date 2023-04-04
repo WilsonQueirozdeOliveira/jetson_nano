@@ -7,16 +7,17 @@ import ctypes
 class c_speed_sensor:
     def __init__(self):
         self.avg_speed = 0
-
-    def avg_speed_update(self):
         # Load the shared library containing the C function
-        lib = ctypes.cdll.LoadLibrary('./c_speed_sensor.so')
-
+        self.lib = ctypes.cdll.LoadLibrary('./c_speed_sensor.so')
         # Declare the argument and return types of the C function
-        lib.get_speed.restype = ctypes.c_float
-
+        self.lib.get_speed.restype = ctypes.c_float
+        
+        
+    def avg_speed_update(self):
+        #self.lib.main()
         # Call the C function and print its return value
-        speed = lib.get_speed()
+        
+        speed = self.lib.get_speed()
 
         self.avg_speed = speed
 
