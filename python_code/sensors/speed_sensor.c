@@ -1,297 +1,121 @@
-#include <stdio.h>
 #include <gpiod.h>
-#include <pthread.h>
+#include <stdio.h>
+#include <unistd.h>
 #include <time.h>
-#include <math.h>
-#include <errno.h>
 
-double wheel_time_1 = 0;
-double wheel_time_2 = 0;
+#define WHEEL_CIRCUMFERENCE 0.067 // Updated wheel circumference in meters
 
-double all_wheel_time = 0;
-
-double tire_diameter = 0.067;
-
-struct gpiod_chip *chip_1;
-struct gpiod_chip *chip_2;
-
-struct gpiod_line *line_1;
-struct gpiod_line *line_2;
-
-struct gpiod_line_event event;
-int ret;
-
-void delay(int milliseconds) {
-    clock_t start_time = clock(); // get the starting clock time
-    while (clock() < start_time + milliseconds); // loop until the specified delay has passed
+double calculate_speed(double time_interval, int sensor_read_points) {
+    double distance = WHEEL_CIRCUMFERENCE;
+    double speed = (distance * sensor_read_points) / time_interval;
+    return speed;
 }
 
-void* wheel_timer_1(void* arg) {
+double avg_speed = 0.0; // Declare avg_speed as a global variable
 
-   int pin_1 = 194;
-   //int pin_2 = 149;
-
-   // Open the GPIO chip device
-   chip_1 = gpiod_chip_open_by_number(0);
-   if (!chip_1) {
-      printf("Failed to open GPIO chip\n");
-   }
-
-   // Request the GPIO line 
-   line_1 = gpiod_chip_get_line(chip_1, pin_1);
-   if (!line_1) {
-      printf("Failed to get GPIO line\n");
-   }
-
-   // Configure the line for input and rising-edge interrupt events
-   ret = gpiod_line_request_rising_edge_events(line_1, "my_program");
-   if (ret < 0) {
-      perror("Failed to request GPIO interrupt events\n");
-      printf("Error: %d \n",errno);
-      printf("pin: %d", pin_1);
-   
-      gpiod_line_release(line_1);
-      gpiod_chip_close(chip_1);
-   }
-
-   printf("f1    ");
-
-   struct timespec start_time, end_time;
-   double elapsed_time;
-  
-   clock_gettime(CLOCK_MONOTONIC, &start_time);
-
-   ret = gpiod_line_event_wait(line_1, NULL);
-   if (ret < 0) {
-      printf("Failed to wait for GPIO events\n");
-   }
-   ret = gpiod_line_event_read(line_1, &event);
-   if (ret < 0) {
-      printf("Failed to read GPIO events\n");
-   }
-
-   clock_gettime(CLOCK_MONOTONIC, &end_time);
-
-   elapsed_time = (end_time.tv_sec - start_time.tv_sec) +
-               (double)(end_time.tv_nsec - start_time.tv_nsec) / 1000000000.0;
-
-   printf("Elapsed time : %f seconds\n", elapsed_time);
-
-   wheel_time_1 = elapsed_time;
-   printf("wheel_time_1: %0.7f \n ",(float)wheel_time_1);
-   return NULL;
-
-}
-
-void wheel_timer_11(void) {
-
-   int pin_1 = 194;
-   //int pin_2 = 149;
-
-   // Open the GPIO chip device
-   chip_1 = gpiod_chip_open_by_number(0);
-   if (!chip_1) {
-      printf("Failed to open GPIO chip\n");
-   }
-
-   // Request the GPIO line 
-   line_1 = gpiod_chip_get_line(chip_1, pin_1);
-   if (!line_1) {
-      printf("Failed to get GPIO line\n");
-   }
-
-   // Configure the line for input and rising-edge interrupt events
-   ret = gpiod_line_request_rising_edge_events(line_1, "my_program");
-   if (ret < 0) {
-      perror("Failed to request GPIO interrupt events\n");
-      printf("Error: %d \n",errno);
-      printf("pin: %d", pin_1);
-   }
-
-   printf("    f1    ");
-
-   struct timespec start_time, end_time;
-   double elapsed_time;
-  
-   clock_gettime(CLOCK_MONOTONIC, &start_time);
-
-   ret = gpiod_line_event_wait(line_1, NULL);
-   if (ret < 0) {
-      printf("Failed to wait for GPIO events\n");
-   }
-   ret = gpiod_line_event_read(line_1, &event);
-   if (ret < 0) {
-      printf("Failed to read GPIO events\n");
-   }
-
-   clock_gettime(CLOCK_MONOTONIC, &end_time);
-
-   elapsed_time = (end_time.tv_sec - start_time.tv_sec) +
-               (double)(end_time.tv_nsec - start_time.tv_nsec) / 1000000000.0;
-
-   printf("Elapsed time : %f seconds\n", elapsed_time);
-
-   wheel_time_1 = elapsed_time;
-   printf("wheel_time_1: %0.7f \n ",(float)wheel_time_1);
-
-}
-
-void* wheel_timer_2(void* arg) {
-
-   int pin_2 = 149;
-
-   // Open the GPIO chip device
-   chip_2 = gpiod_chip_open_by_number(0);
-   if (!chip_2) {
-      printf("Failed to open GPIO chip\n");
-   }
-
-   // Request the GPIO line 
-   line_2 = gpiod_chip_get_line(chip_2, pin_2);
-   if (!line_2) {
-      printf("Failed to get GPIO line\n");
-   }
-
-   // Configure the line for input and rising-edge interrupt events
-   ret = gpiod_line_request_rising_edge_events(line_2, "my_program");
-   if (ret < 0) {
-      perror("Failed to request GPIO interrupt events\n");
-      printf("Error: %d \n",errno);
-      printf("pin: %d", pin_2);
-
-   }
-   printf("f2    ");
-
-   struct timespec start_time, end_time;
-   double elapsed_time;
-   
-   clock_gettime(CLOCK_MONOTONIC, &start_time);
-
-   ret = gpiod_line_event_wait(line_2, NULL);
-   if (ret < 0) {
-      printf("Failed to wait for GPIO events\n");
-   }
-   ret = gpiod_line_event_read(line_2, &event);
-   if (ret < 0) {
-      printf("Failed to read GPIO events\n");
-   }
-
-   clock_gettime(CLOCK_MONOTONIC, &end_time);
-
-   elapsed_time = (end_time.tv_sec - start_time.tv_sec) +
-               (double)(end_time.tv_nsec - start_time.tv_nsec) / 1000000000.0;
-
-   printf("Elapsed time : %f seconds\n", elapsed_time);
-
-   wheel_time_2 = elapsed_time;
-   printf("wheel_time_2: %0.7f \n ",(float)wheel_time_2);
-   return NULL; 
-}
-
-void wheel_timer_22(void) {
-
-   int pin_2 = 149;
-
-   // Open the GPIO chip device
-   chip_2 = gpiod_chip_open_by_number(0);
-   if (!chip_2) {
-      printf("Failed to open GPIO chip\n");
-   }
-
-   // Request the GPIO line 
-   line_2 = gpiod_chip_get_line(chip_2, pin_2);
-   if (!line_2) {
-      printf("Failed to get GPIO line\n");
-   }
-
-   // Configure the line for input and rising-edge interrupt events
-   ret = gpiod_line_request_rising_edge_events(line_2, "my_program");
-   if (ret < 0) {
-      perror("Failed to request GPIO interrupt events\n");
-      printf("Error: %d \n",errno);
-      printf("pin: %d", pin_2);
-
-      
-      gpiod_line_release(line_2);
-      gpiod_chip_close(chip_2);
-   }
-
-   printf("    f2    ");
-
-   struct timespec start_time, end_time;
-   double elapsed_time;
-   
-   clock_gettime(CLOCK_MONOTONIC, &start_time);
-
-   ret = gpiod_line_event_wait(line_2, NULL);
-   if (ret < 0) {
-      perror("Failed to wait for GPIO events\n");
-      printf("Error: %d \n",errno);
-      
-   }
-   ret = gpiod_line_event_read(line_2, &event);
-   if (ret < 0) {
-      printf("Failed to read GPIO events\n");
-   }
-
-   clock_gettime(CLOCK_MONOTONIC, &end_time);
-
-   elapsed_time = (end_time.tv_sec - start_time.tv_sec) +
-               (double)(end_time.tv_nsec - start_time.tv_nsec) / 1000000000.0;
-
-   printf("Elapsed time : %f seconds\n", elapsed_time);
-
-   wheel_time_2 = elapsed_time;
-   printf("wheel_time_2: %0.7f \n ",(float)wheel_time_2);
-    
-}
-
-void threads_read(){
-
-   printf("%s \n","oi..........................................................................");
-
-   pthread_t thread_id1, thread_id2;
-
-   pthread_create(&thread_id1, NULL, wheel_timer_1, NULL);
-   pthread_create(&thread_id2, NULL, wheel_timer_2, NULL);
-
-   pthread_join(thread_id1, NULL);
-   pthread_join(thread_id2, NULL);
-
-   //gpiod_line_release(line_1);
-   //gpiod_chip_close(chip_1);
-
-   //gpiod_line_release(line_2);
-   //gpiod_chip_close(chip_2);
-
-}
-
-// Function to get the current speed
 float get_speed() {
-
-   printf("....oi...."); 
-
-   //threads_read();
-
-   wheel_timer_22();
-
-   wheel_timer_11();
-   
-
-   gpiod_line_release(line_1);
-   gpiod_chip_close(chip_1);
-
-   gpiod_line_release(line_2);
-   gpiod_chip_close(chip_2);
-
-   printf("....fui....");
-
-   //all_wheel_time = (wheel_time_1+wheel_time_2)/2.0;
-   float speed = all_wheel_time;
-
-   return speed;
+    return (float)avg_speed;
 }
 
 int main() {
-   return 0;
+    const char *chip_name = "gpiochip0";
+    unsigned int pin_number1 = 149;
+    unsigned int pin_number2 = 194;
+    struct gpiod_chip *chip;
+    struct gpiod_line *line1, *line2;
+    struct gpiod_line_event event;
+    int ret;
+
+    struct timespec start_time1, start_time2, current_time;
+    double time_interval1, time_interval2, speed1, speed2;
+    int count1 = 0, count2 = 0;
+
+    chip = gpiod_chip_open_by_name(chip_name);
+    if (!chip) {
+        perror("Open chip");
+        return 1;
+    }
+
+    line1 = gpiod_chip_get_line(chip, pin_number1);
+    line2 = gpiod_chip_get_line(chip, pin_number2);
+    if (!line1 || !line2) {
+        perror("Get lines");
+        gpiod_chip_close(chip);
+        return 1;
+    }
+
+    ret = gpiod_line_request_rising_edge_events(line1, "wheel_speed_example");
+    if (ret < 0) {
+        perror("Request rising edge events");
+        gpiod_chip_close(chip);
+        return 1;
+    }
+
+    ret = gpiod_line_request_rising_edge_events(line2, "wheel_speed_example");
+    if (ret < 0) {
+        perror("Request rising edge events");
+        gpiod_chip_close(chip);
+        return 1;
+    }
+
+    printf("Monitoring wheel speeds...\n");
+
+    while (1) {
+        ret = gpiod_line_event_wait(line1, NULL);
+        if (ret < 0) {
+            perror("Wait for events");
+            break;
+        } else if (ret > 0) {
+            ret = gpiod_line_event_read(line1, &event);
+            if (ret < 0) {
+                perror("Read event");
+                break;
+            }
+
+            clock_gettime(CLOCK_MONOTONIC, &current_time);
+
+            count1++;
+            if (count1 == 1) {
+                start_time1 = current_time;
+            } else if (count1 == 4) {
+                time_interval1 = current_time.tv_sec - start_time1.tv_sec + (current_time.tv_nsec - start_time1.tv_nsec) / 1e9;
+                speed1 = calculate_speed(time_interval1, count1);
+                count1 = 0;
+            }
+        }
+
+        ret = gpiod_line_event_wait(line2, NULL);
+        if (ret < 0) {
+            perror("Wait for events");
+            break;
+        } else if (ret > 0) {
+            ret = gpiod_line_event_read(line2, &event);
+            if (ret < 0) {
+                perror("Read event");
+                break;
+            }
+
+            clock_gettime(CLOCK_MONOTONIC, &current_time);
+
+            count2++;
+            if (count2 == 1) {
+                start_time2 = current_time;
+            } else if (count2 == 4) {
+                time_interval2 = current_time.tv_sec - start_time2.tv_sec + (current_time.tv_nsec - start_time2.tv_nsec) / 1e9;
+                speed2 = calculate_speed(time_interval2, count2);
+                count2 = 0;
+            }
+        }
+
+        if (count1 == 0 && count2 == 0) {
+            avg_speed = (speed1 + speed2) / 2.0;
+            printf("Wheel 1 Speed: %.2lf m/s, Wheel 2 Speed: %.2lf m/s, Average Speed: %.2lf m/s\n", speed1, speed2, avg_speed);
+            break;
+        }
+        
+    }
+    gpiod_line_release(line1);
+    gpiod_line_release(line2);
+    gpiod_chip_close(chip);
+    return 0;
 }
