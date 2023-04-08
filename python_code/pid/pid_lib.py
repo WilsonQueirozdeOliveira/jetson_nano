@@ -9,7 +9,7 @@ class pid:
         self.Ki = Ki
         self.Kd = Kd
         self.last_time = time.time()
-        self.last_erro = 0
+        self.last_erro = 0.0
 
     def pid_update_(self,feedback,setpoint,delta_time_delay=0.01):
         
@@ -21,9 +21,10 @@ class pid:
 
         delta_time = time.time() - self.last_time 
         self.last_time = time.time()
-        #print('delta_time: ',delta_time)
+        print('__________delta_time: ',delta_time)
 
         erro = self.setpoint - self.feedback
+        print('__________erro: ', erro)
         # KP
         KP = erro*self.Kp
         # KI
