@@ -6,29 +6,17 @@ sys.path.append("/home/jetson/jetson_nano/python_code/pid")
 from odometer_lib import c_odometer
 from actuators_lib import Actuators
 from pid_lib import pid
-import time
-
-import threading
 
 class CarControl:
     def __init__(self, steering_channel, motor_channel, wheel_sensor_pin_rear_left, wheel_sensor_pin_rear_right, wheel_diameter_m):
-        self.steering_pid = pid(0, 0, 0, 1, 0, 0)  # initialize the steering PID controller
+        self.steering_pid = pid(0, 0, 0, 1.0, 0.0, 0.0)  # initialize the steering PID controller
         self.actuators = Actuators(steering_channel, motor_channel)  # initialize the actuators
         self.output_steer = 0
         self.output_speed = 0
         self.odometer = c_odometer()  # initialize the odometer
-        self.speed_pid = pid(0, 0, 0, 50.0, 400.0, 0.0)  # initialize the speed PID controller
+        self.speed_pid = pid(0, 0, 0, 0.1, 25000.0, 0.0)  # initialize the speed PID controller
         self.direction = 0
         self.speed_feedback = 0
-        #self.speed_feedback = self.odometer.update_c_odometer()
-        self.odometer_thread = threading.Thread(target=self._update_odometer_loop, daemon=True)
-        self.odometer_thread.start()
-
-    def _update_odometer_loop(self):
-        while True:
-            self.speed_feedback = self.odometer.update_c_odometer()
-            print(" ***loop self.speed_feedback: \n",self.speed_feedback)
-            #time.sleep(0.1)  # adjust update rate as needed
 
     def set_steer(self, setpoint):
         feedback = self.output_steer
@@ -36,7 +24,7 @@ class CarControl:
         self.actuators.set_steer(self.output_steer)  # set steering angle
 
     def set_speed(self, setpoint):
-        #self.speed_feedback = self.odometer.update_c_odometer()
+        self.speed_feedback = self.odometer.update_c_odometer()
         feedback = self.speed_feedback
         print('self.odometer.speed_avg: ', feedback)# get current avg_speed from c lib
         self.output_speed = self.speed_pid.pid_update_(feedback, setpoint)  # update PID controller
