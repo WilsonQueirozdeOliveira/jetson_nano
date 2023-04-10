@@ -3,11 +3,16 @@
 #include <unistd.h>
 #include <time.h>
 
-#define WHEEL_CIRCUMFERENCE 0.067 // Updated wheel circumference in meters
+#define WHEEL_CIRCUMFERENCE  0.2108 // Updated wheel circumference in meters (0.067 dismeter)
+#define TIMEOUT_MS 50
 
 double calculate_speed(double time_interval, int sensor_read_points) {
     double distance = WHEEL_CIRCUMFERENCE;
-    double speed = (distance * sensor_read_points) / time_interval;
+    //double speed = (distance * sensor_read_points) / time_interval;
+    double speed = (distance/4) / time_interval;
+    if (speed > 10.0){
+        speed = 10.0;
+    }
     return speed;
 }
 
@@ -60,8 +65,12 @@ int main() {
 
     printf("Monitoring wheel speeds...\n");
 
+    struct timespec timeout;
+    timeout.tv_sec = TIMEOUT_MS / 1000;
+    timeout.tv_nsec = (TIMEOUT_MS % 1000) * 1000000;
+
     while (1) {
-        ret = gpiod_line_event_wait(line1, NULL);
+        ret = gpiod_line_event_wait(line1, &timeout);
         if (ret < 0) {
             perror("Wait for events");
             break;
@@ -77,14 +86,14 @@ int main() {
             count1++;
             if (count1 == 1) {
                 start_time1 = current_time;
-            } else if (count1 == 4) {
+            } else if (count1 == 1) { //else if (count1 == 4)
                 time_interval1 = current_time.tv_sec - start_time1.tv_sec + (current_time.tv_nsec - start_time1.tv_nsec) / 1e9;
                 speed1 = calculate_speed(time_interval1, count1);
                 count1 = 0;
             }
         }
 
-        ret = gpiod_line_event_wait(line2, NULL);
+        ret = gpiod_line_event_wait(line2, &timeout);
         if (ret < 0) {
             perror("Wait for events");
             break;
@@ -100,7 +109,7 @@ int main() {
             count2++;
             if (count2 == 1) {
                 start_time2 = current_time;
-            } else if (count2 == 4) {
+            } else if (count2 == 1) {//else if (count1 == 4)
                 time_interval2 = current_time.tv_sec - start_time2.tv_sec + (current_time.tv_nsec - start_time2.tv_nsec) / 1e9;
                 speed2 = calculate_speed(time_interval2, count2);
                 count2 = 0;
@@ -110,7 +119,30 @@ int main() {
         if (count1 == 0 && count2 == 0) {
             avg_speed = (speed1 + speed2) / 2.0;
             printf("Wheel 1 Speed: %.2lf m/s, Wheel 2 Speed: %.2lf m/s, Average Speed: %.2lf m/s\n", speed1, speed2, avg_speed);
-            break;
+            
+        }
+        if (count1 == 0) {
+            //avg_speed = speed1;
+            printf("Wheel 1 Speed: %.2lf m/s, Wheel 2 Speed: %.2lf m/s, Average Speed: %.2lf m/s\n", speed1, speed2, avg_speed);
+            
+        }
+
+        if (count2 == 0) {
+            //avg_speed = speed2;
+            printf("Wheel 1 Speed: %.2lf m/s, Wheel 2 Speed: %.2lf m/s, Average Speed: %.2lf m/s\n", speed1, speed2, avg_speed);
+            
+        }
+
+        clock_gettime(CLOCK_MONOTONIC, &current_time);
+        double elapsed_time = (current_time.tv_sec - start_time1.tv_sec) + (current_time.tv_nsec - start_time1.tv_nsec) / 1e9;
+
+        if (elapsed_time > 0.5) {
+            avg_speed = 0;
+            printf("Timeout reached. Average Speed: %.2lf m/s\n", avg_speed);
+            count1 = 0;
+            count2 = 0;
+            clock_gettime(CLOCK_MONOTONIC, &start_time1); // Reset start_time1 for the next iteration
+            clock_gettime(CLOCK_MONOTONIC, &start_time2); // Reset start_time2 for the next iteration
         }
         
     }
