@@ -38,7 +38,7 @@ class pid:
         #print('KD: ',KD)
         
         # output
-        self.output = (feedback + KP + KI + KD)
+        self.output = (self.feedback + KP + KI + KD)
         #print(self.output)
 
         return self.output
