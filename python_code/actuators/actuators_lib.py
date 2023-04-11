@@ -16,7 +16,7 @@ class Actuators:
             power = 0
         elif power > 100:
             power = 100
-        pulse_width = int(power / 100.0 * (360 - 330) + 330) # 350 is low changed to more
+        pulse_width = int(power / 100.0 * (370 - 330) + 330) # 350 is low changed to more
         print('pulse_width set_motor_forward :',pulse_width )
         self.pwm.set_pwm(self.motor_channel, pulse_width)
 
