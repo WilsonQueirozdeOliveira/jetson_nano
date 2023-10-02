@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <time.h>
 
-#define WHEEL_CIRCUMFERENCE  0.2108 // Updated wheel circumference in meters (0.067 dismeter)
+#define WHEEL_CIRCUMFERENCE  0.2108 // Updated wheel circumference in meters (0.067 diameter) ((2*PI())*(0.067/2))=0.2108
 #define TIMEOUT_MS 50
 
 double calculate_speed(double time_interval, int sensor_read_points) {
