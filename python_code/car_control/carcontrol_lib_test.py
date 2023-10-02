@@ -3,7 +3,7 @@ sys.path.append("/path/to/pca9685_driver")
 from carcontrol_lib import CarControl
 import time
 
-car = CarControl(0, 1, 15, 29, 6.7)  # initialize with steering channel 0, motor channel 1, wheel sensor pin 2, and wheel radius 5 cm
+car = CarControl(0, 1, 15, 29, 0.067)  # initialize with : steering_channel, motor_channel, wheel_sensor_pin_rear_left, wheel_sensor_pin_rear_right, wheel_diameter_m
 
 car.set_stop()
 time.sleep(1)
