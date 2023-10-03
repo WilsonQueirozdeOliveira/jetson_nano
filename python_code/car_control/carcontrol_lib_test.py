@@ -2,7 +2,7 @@ import sys
 sys.path.append("/path/to/pca9685_driver")
 from carcontrol_lib import CarControl
 import time
-
+# use : sudo python3 carcontrol_lib_test.py (the speed_sensor.c file need sudo to exec)
 car = CarControl(0, 1, 15, 29, 0.067)  # initialize with : steering_channel, motor_channel, wheel_sensor_pin_rear_left, wheel_sensor_pin_rear_right, wheel_diameter_m
 
 car.set_stop()
