@@ -16,7 +16,6 @@ class CarControl:
         self.output_speed = 0
         self.odometer = odometer()#c_odometer()  # initialize the odometer
         self.speed_pid = pid(0, 0, 0, 1000.0, 2500.0, 10000000.0)  # initialize the speed PID controller
-        #pid(0, 0, 0, 0.2, 28500.0, 0.0)
         self.direction = 0
         self.speed_feedback = 0
 
