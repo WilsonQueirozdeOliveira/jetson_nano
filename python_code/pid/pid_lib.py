@@ -11,7 +11,7 @@ class pid:
         self.last_time = time.time()
         self.last_erro = 0.0
 
-    def pid_update_(self,feedback,setpoint,delta_time_delay=0.01):
+    def pid_update_(self,feedback,setpoint,delta_time_delay=0.001):
         
         if delta_time_delay:
             time.sleep(delta_time_delay)
