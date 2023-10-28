@@ -16,8 +16,8 @@ class RPMReader:
         GPIO.setup(self.PIN_REAR_LEFT, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
         # Setup interrupt handlers
-        GPIO.add_event_detect(self.PIN_REAR_RIGHT, GPIO.RISING, callback=self.on_rear_right_pulse, bouncetime=20)
-        GPIO.add_event_detect(self.PIN_REAR_LEFT, GPIO.RISING, callback=self.on_rear_left_pulse, bouncetime=20)
+        GPIO.add_event_detect(self.PIN_REAR_RIGHT, GPIO.RISING, callback=self.on_rear_right_pulse, bouncetime=0)
+        GPIO.add_event_detect(self.PIN_REAR_LEFT, GPIO.RISING, callback=self.on_rear_left_pulse, bouncetime=0)
 
     def on_rear_right_pulse(self, channel):
         self.rpm_rear_right += 1
