@@ -44,7 +44,7 @@ while True:
 
     # Define the lower and upper bounds for red and yellow colors in HSV
     lower_red = np.array([0, 100, 100])
-    upper_red = np.array([20, 255, 255])
+    upper_red = np.array([17, 255, 255])
 
     lower_yellow = np.array([24, 100, 100])
     upper_yellow = np.array([35, 255, 255])
