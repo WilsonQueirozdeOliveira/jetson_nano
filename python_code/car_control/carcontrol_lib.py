@@ -10,12 +10,13 @@ from pid_lib import pid
 
 class CarControl:
     def __init__(self, steering_channel, motor_channel, wheel_sensor_pin_rear_left, wheel_sensor_pin_rear_right, wheel_diameter_m):
-        self.steering_pid = pid(0, 0, 0, 1.0, 0.0, 0.0)  # initialize the steering PID controller
+        self.steering_pid = pid(0, 0, 0, 0.07855, 0.0, 0.00011)  # initialize the steering PID controller
         self.actuators = Actuators(steering_channel, motor_channel)  # initialize the actuators
         self.output_steer = 0
         self.output_speed = 0
         self.odometer = odometer()#c_odometer()  # initialize the odometer
-        self.speed_pid = pid(0, 0, 0, 2.0, 80000.0, 0.06)  # initialize the speed PID controller
+        # pid(0, 0, 0, 2.0, 80000.0, 0.06)
+        self.speed_pid = pid(0, 0, 0, 0.005, 80000.0, 0.06)  # initialize the speed PID controller
         self.direction = 0
         self.speed_feedback = 0
 
