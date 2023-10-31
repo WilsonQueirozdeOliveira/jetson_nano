@@ -8,7 +8,7 @@ from carcontrol_lib import CarControl
 
 steer_output = 0
 crop = 3
-count = 0
+count_pixel_control_loop = 0
 
 car = CarControl(0, 1, 15, 29, 0.067)  # initialize with : steering_channel, motor_channel, wheel_sensor_pin_rear_left, wheel_sensor_pin_rear_right, wheel_diameter_m
 
@@ -81,15 +81,16 @@ while True:
     car.set_steer(steer_output)
 
     # power control
-    count = 0
+    
 
-    if count < 500:
-        count += 1
-
+    if count_pixel_control_loop < 500:
+        count_pixel_control_loop += 1
+        print("car.set_direction(""forward"")")
         car.set_direction("forward")  # start moving forward
         car.set_speed(0.01)  # set the car speed to x m/s
         
     else:
+        print("car.set_stop()")
         car.set_stop()
         car.set_stop()
         time.sleep(1)
