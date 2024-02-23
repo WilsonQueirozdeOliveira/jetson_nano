@@ -2,6 +2,7 @@
 import os
 import sys
 sys.path.append("/home/jetson/jetson_nano/python_code/sensors")
+from speed_sensor import RPMReader
 
 import threading
 import ctypes
@@ -34,3 +35,11 @@ class c_speed_sensor:
         #print("sensors_lib speed get: ",speed)
 
         return speed
+    
+class speed_sensor:
+    def __init__(self):
+        self.rpmReader = RPMReader()
+
+    def calculate_average_speed(self):
+        self.avg_speed = self.rpmReader.calculate_average_speed(self.rpmReader.read_rpm()[0],self.rpmReader.read_rpm()[1])
+        return self.avg_speed
