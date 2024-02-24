@@ -4,7 +4,7 @@ sys.path.append("/home/jetson/jetson_nano/python_code/actuators")
 sys.path.append("/home/jetson/jetson_nano/python_code/pid")
 
 #from odometer_lib import c_odometer
-from odometer_lib import odometer
+from odometer_lib import odometer, motor_odometer
 from actuators_lib import Actuators
 from pid_lib import pid
 
@@ -14,7 +14,8 @@ class CarControl:
         self.actuators = Actuators(steering_channel, motor_channel)  # initialize the actuators
         self.output_steer = 0
         self.output_speed = 0
-        self.odometer = odometer()#c_odometer()  # initialize the odometer
+        #self.odometer = odometer()#c_odometer()  # initialize the odometer # tiresrpm
+        self.odometer = motor_odometer()# motor rpm
         # pid(0, 0, 0, 2.0, 80000.0, 0.06)
         self.speed_pid = pid(0, 0, 0, 0.005, 80000.0, 0.06)  # initialize the speed PID controller
         self.direction = 0
@@ -26,7 +27,8 @@ class CarControl:
         self.actuators.set_steer(self.output_steer)  # set steering angle
 
     def set_speed(self, setpoint):
-        self.speed_feedback = self.odometer.avg_speed()#self.odometer.update_c_odometer()
+        #self.speed_feedback = self.odometer.avg_speed()#self.odometer.update_c_odometer() #tire rpm
+        self.speed_feedback = self.odometer.car_motor_speed() # motor rpm
         feedback = self.speed_feedback
         print('self.odometer.speed_avg: ', feedback)# get current avg_speed from c lib
         self.output_speed = self.speed_pid.pid_update_(feedback, setpoint)  # update PID controller
