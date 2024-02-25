@@ -29,8 +29,9 @@ class CarControl:
     def set_speed(self, setpoint):
         #self.speed_feedback = self.odometer.avg_speed()#self.odometer.update_c_odometer() #tire rpm
         self.speed_feedback = self.odometer.car_motor_speed() # motor rpm
+        print('self.odometer.car_motor_speed() :', self.speed_feedback)
         feedback = self.speed_feedback
-        print('self.odometer.speed_avg: ', feedback)# get current avg_speed from c lib
+        #print('self.odometer.speed_avg: ', feedback)# get current avg_speed from c lib
         self.output_speed = self.speed_pid.pid_update_(feedback, setpoint)  # update PID controller
         print('self.output_speed: ', self.output_speed)
         
