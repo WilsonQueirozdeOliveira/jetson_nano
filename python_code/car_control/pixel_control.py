@@ -82,14 +82,12 @@ while True:
     # power control
     
 
-    if count_pixel_control_loop < 200:
+    if count_pixel_control_loop < 300:
         count_pixel_control_loop += 1
         #print("car.set_direction(""forward"")")
-        car.set_speed(0.05)  # set the car speed to x m/s
         car.set_direction("forward")  # start moving forward
-        
-        
-        
+        car.set_speed(0.1)  # set the car speed to x m/s
+    
     else:
         print("car.set_stop()")
         car.set_stop()

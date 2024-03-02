@@ -21,10 +21,10 @@ class pid:
 
         delta_time = time.time() - self.last_time 
         self.last_time = time.time()
-        print('__________delta_time: ',delta_time)
+        #print('__________delta_time: ',delta_time)
 
         erro = self.setpoint - self.feedback
-        print('__________erro: ', erro)
+        #print('__________erro: ', erro)
         # KP
         KP = erro*self.Kp
         # KI
