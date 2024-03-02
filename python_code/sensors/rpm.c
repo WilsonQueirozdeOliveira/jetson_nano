@@ -8,10 +8,10 @@
 volatile int pulse_count = 0;
 
 // Constants
-const int pulses_per_revolution = 3;
+const int pulses_per_revolution = 2;
 
 // Use a fixed interval for calculations (e.g., 1000 ms)
-#define CALCULATION_INTERVAL_MS 100
+#define CALCULATION_INTERVAL_MS 50
 
 void pulse_interrupt(uint gpio, uint32_t events) {
     pulse_count++;
@@ -26,7 +26,7 @@ void calculate_rpm() {
         float rpm = (pulse_count * 60000.0) / (pulses_per_revolution * CALCULATION_INTERVAL_MS);
 
         // Update display or print
-        printf(" %.2f\n", rpm);
+        printf(" %.4f\n", rpm);
 
         // Reset pulse count for the next interval
         pulse_count = 0;
