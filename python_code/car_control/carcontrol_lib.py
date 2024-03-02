@@ -19,7 +19,7 @@ class CarControl:
         #self.odometer = motor_odometer()# motor rps
         self.pico_odom = pico_odometer()
         # pid(0, 0, 0, 2.0, 80000.0, 0.06)
-        self.speed_pid = pid(0, 0, 0, 0.06 , 10000.0, 5.0)  # initialize the speed PID controller
+        self.speed_pid = pid(0, 0, 0, 400.0 , 5000.0, 1.0)  # initialize the speed PID controller
         self.direction = 0
         self.speed_feedback = 0
 
