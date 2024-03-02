@@ -10,12 +10,13 @@ import time
 
 class CarControl:
     def __init__(self, steering_channel, motor_channel, wheel_sensor_pin_rear_left, wheel_sensor_pin_rear_right, wheel_diameter_m):
-        self.steering_pid = pid(0, 0, 0, 0.07855, 0.0, 0.00011)  # initialize the steering PID controller
+        # self.steering_pid = pid(0, 0, 0, 0.07855, 0.0, 0.00011) 
+        self.steering_pid = pid(0, 0, 0, 0.9, 0.5, 0.0)  # initialize the steering PID controller
         self.actuators = Actuators(steering_channel, motor_channel)  # initialize the actuators
         self.output_steer = 0
         self.output_speed = 0
         self.pico_odom = pico_odometer()
-        self.speed_pid = pid(0, 0, 0, 0.002 , 5000.0, 0.0)  # initialize the speed PID controller
+        self.speed_pid = pid(0, 0, 0, 0.9 , 1000000.0, 8.0)  # initialize the speed PID controller
         self.direction = 0
         self.speed_feedback = 0
 

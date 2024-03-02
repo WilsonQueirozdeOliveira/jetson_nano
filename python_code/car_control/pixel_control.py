@@ -71,7 +71,7 @@ while True:
     #print(f'Red Pixels (Mapped): {red_pixel_count_mapped}')
     #print(f'Yellow Pixels (Mapped): {yellow_pixel_count_mapped}')
 
-    steer_output = int((red_pixel_count_mapped*0.8 - yellow_pixel_count_mapped)*100)
+    steer_output = int((red_pixel_count_mapped*0.8 - yellow_pixel_count_mapped)*110)
 
     #print(f'steer output:',steer_output)
 
@@ -82,11 +82,11 @@ while True:
     # power control
     
 
-    if count_pixel_control_loop < 300:
+    if count_pixel_control_loop < 2000:
         count_pixel_control_loop += 1
         #print("car.set_direction(""forward"")")
         car.set_direction("forward")  # start moving forward
-        car.set_speed(0.1)  # set the car speed to x m/s
+        car.set_speed(0.702)  # set the car speed to x m/s
     
     else:
         print("car.set_stop()")
