@@ -31,7 +31,6 @@ cap = cv2.VideoCapture(pipeline, cv2.CAP_GSTREAMER)
 
 while True:
     ret, frame = cap.read()
-
     if not ret:
         break
 
@@ -69,12 +68,12 @@ while True:
     yellow_pixel_count_mapped = (yellow_pixel_count / (width * height / 5)) * 100
 
     # Print the mapped pixel counts
-    print(f'Red Pixels (Mapped): {red_pixel_count_mapped}')
-    print(f'Yellow Pixels (Mapped): {yellow_pixel_count_mapped}')
+    #print(f'Red Pixels (Mapped): {red_pixel_count_mapped}')
+    #print(f'Yellow Pixels (Mapped): {yellow_pixel_count_mapped}')
 
     steer_output = int((red_pixel_count_mapped*0.8 - yellow_pixel_count_mapped)*100)
 
-    print(f'steer output:',steer_output)
+    #print(f'steer output:',steer_output)
 
     #car.set_steer(50)
 
@@ -83,11 +82,12 @@ while True:
     # power control
     
 
-    if count_pixel_control_loop < 500:
+    if count_pixel_control_loop < 700:
         count_pixel_control_loop += 1
-        print("car.set_direction(""forward"")")
+        #print("car.set_direction(""forward"")")
         car.set_direction("forward")  # start moving forward
-        car.set_speed(0.01)  # set the car speed to x m/s
+        car.set_speed(0.02)  # set the car speed to x m/s
+        
         
     else:
         print("car.set_stop()")
