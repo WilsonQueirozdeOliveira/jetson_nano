@@ -1,20 +1,21 @@
-#!/usr/bin/env python3
-from sensors_lib import c_speed_sensor
-from sensors_lib import MotorRPM
+from pico_rpm_reader import PicoRPMReader
+import time
 
-#speed_sensor = c_speed_sensor()
-motor_rpm_sensor = MotorRPM()
-motor_rpm_sensor.start_rpm_check(0.001)
+def main():
+    # Initialize the PicoRPMReader with the appropriate serial port
+    rpm_reader = PicoRPMReader(serial_port='/dev/ttyACM0')
+    rpm_reader.connect()
 
-while(True):
-    print('...')
-    #avg_speed = speed_sensor.avg_speed_update()
-    #print('avg_speed: ', avg_speed)
-    #motor_rpm_value = motor_rpm_sensor.start_rpm_check()
-    #print('motor_rpm_value: ', motor_rpm_value)
-    car_speed_m_s = motor_rpm_sensor.get_latest_speed()
-    print('car_speed_m_s: ', car_speed_m_s)
-    
-    print('..........')
+    try:
+        while True:
+            # Get the tire speed in meters per second
+            tire_speed = rpm_reader.get_tire_speed()
+            if tire_speed is not None:
+                print(f"Tire Speed: {tire_speed:.2f} m/s")
+            time.sleep(0.1)  # Adjust the sleep time as needed
+    except KeyboardInterrupt:
+        print("\nStopped measuring tire speed.")
 
-    
+if __name__ == "__main__":
+    main()
+

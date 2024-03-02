@@ -3,7 +3,9 @@ import os
 import sys
 sys.path.append("/home/jetson/jetson_nano/python_code/sensors")
 from speed_sensor import RPMReader
-from motor_rpm_sensor import SensorRpmMotor
+from motor_rps_sensor import SimpleSensorRpsMotor
+
+from pico_rpm_reader import PicoRPMReader
 
 import threading
 import ctypes
@@ -45,57 +47,65 @@ class speed_sensor:
         self.avg_speed = self.rpmReader.calculate_average_speed(self.rpmReader.read_rpm()[0],self.rpmReader.read_rpm()[1])
         return self.avg_speed
     
-class MotorRPM:
-    def __init__(self):
-        self.rpm_sensor = SensorRpmMotor(sensor_pin=4, pulses_per_revolution=6)
-        self.tire_circumference_meters = 0.067
-        self.timer = None
-        # Assuming a default gear ratio; this should be updated based on your specific use case
-        self.gear_ratio = 1
-        self.latest_rpm = 0  # Stores the latest RPM value
-        self.latest_speed = 0  # Stores the latest speed value
+import time
 
-    def start_rpm_check(self, interval=1):
-        """Start periodic RPM checks with the specified interval in seconds."""
-        self._schedule_rpm_check(interval)
+class MotorRPS:
+    def __init__(self, sensor_pin, pulses_per_revolution):
+        self.rps_sensor = SimpleSensorRpsMotor(sensor_pin, pulses_per_revolution)
+        self.tire_diameter_meters = 0.067
+        self.tire_circumference_meters = 0.210
+        self.gear_ratio = 0.6
+        self.latest_rps = 0.0
+        self.latest_speed = 0.0
+        self.latest_speed_feedback = 0.0
+        self.running = True
+        self.update_thread = threading.Thread(target=self.update_rps, daemon=True)
+        self.update_thread.start()
 
-    def _schedule_rpm_check(self, interval):
-        """Schedule the next RPM check after the given interval."""
-        self.timer = threading.Timer(interval, self._check_rpm, [interval])
-        self.timer.start()
+    def update_rps(self):
+        while self.running:
+            self.latest_rps = self.rps_sensor.read_rps()
+            self.latest_speed = self.calculate_car_speed(self.latest_rps)
+            time.sleep(0.1)  # Adjust sleep time as needed for update frequency
 
-    def _check_rpm(self, interval):
-        """Check the motor RPM and schedule the next check."""
-        rpm = self.rpm_sensor.read_rpm()
-        if rpm is not None:
-            self.latest_rpm = rpm
-            self.latest_speed = self.calculate_car_speed(rpm)
-        # Schedule the next RPM check
-        self._schedule_rpm_check(interval)
-
-    def calculate_car_speed(self, rpm):
-        """Calculate and return the car's speed in meters per second."""
-        return (rpm * self.tire_circumference_meters * self.gear_ratio) / 60
-
-    def set_gear_ratio(self, gear_ratio):
-        """Set the current gear ratio."""
-        self.gear_ratio = gear_ratio
-
-    def get_latest_rpm(self):
-        """Return the latest RPM reading."""
-        return self.latest_rpm
+    def calculate_car_speed(self, rps):
+        return (rps * self.tire_circumference_meters * self.gear_ratio)*10.0
 
     def get_latest_speed(self):
-        """Return the latest speed calculation."""
         return self.latest_speed
+    
+    def get_latest_rpm(self):
+        return self.latest_rps * 60
 
-    def stop_rpm_check(self):
-        """Stop the periodic RPM checks."""
-        if self.timer is not None:
-            self.timer.cancel()
+    def get_motor_rpm(self):
+        return self.get_latest_rpm() / self.gear_ratio
 
     def cleanup(self):
-        """Clean up resources."""
-        self.stop_rpm_check()
-        self.rpm_sensor.cleanup()
+        self.running = False
+        self.update_thread.join()
+        self.rps_sensor.cleanup()
+
+class RPMManager:
+    def __init__(self, serial_port='/dev/ttyACM0'):
+        self.rpm_reader = PicoRPMReader(serial_port=serial_port)
+        self.keep_running = True
+
+    def connect(self):
+        """Establishes a connection with the serial port."""
+        self.rpm_reader.connect()
+
+    def read_tire_rpm_continuously(self):
+        """Yields the tire RPM continuously."""
+        try:
+            while self.keep_running:
+                tire_rpm = self.rpm_reader.get_tire_rpm()
+                if tire_rpm:
+                    yield tire_rpm
+        except KeyboardInterrupt:
+            print("\nProgram exited by user.")
+            self.keep_running = False
+
+    def stop(self):
+        """Stops the continuous reading."""
+        self.keep_running = False
 
