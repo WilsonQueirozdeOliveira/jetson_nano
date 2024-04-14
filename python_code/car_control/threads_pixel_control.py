@@ -4,6 +4,7 @@ import threading
 import time
 from carcontrol_lib import CarControl
 import sys
+import os
 
 # Initialize the CarControl with specific settings for channels and sensors.
 car = CarControl(0, 1, 15, 29, 0.067)
@@ -20,8 +21,8 @@ def camera_steering_control():
     """Controls the steering based on the camera's input."""
     global steer_output
     # Set up the camera capture using GStreamer.
-    pipeline =  "nvarguscamerasrc ! video/x-raw(memory:NVMM), width=(int)1280, height=(int)720, format=(string)NV12, framerate=(fraction)30/1 ! nvvidconv ! video/x-raw, format=(string)BGRx ! videoconvert ! video/x-raw, format=(string)BGR ! appsink"
-                #"nvarguscamerasrc ! video/x-raw(memory:NVMM), width=(int)640, height=(int)360, format=(string)NV12, framerate=(fraction)30/1 ! nvvidconv ! video/x-raw, format=(string)BGRx ! videoconvert ! video/x-raw, format=(string)BGR ! appsink"
+    pipeline =  "nvarguscamerasrc ! video/x-raw(memory:NVMM), width=(int)640, height=(int)360, format=(string)NV12, framerate=(fraction)30/1 ! nvvidconv ! video/x-raw, format=(string)BGRx ! videoconvert ! video/x-raw, format=(string)BGR ! appsink"
+                #"nvarguscamerasrc ! video/x-raw(memory:NVMM), width=(int)1280, height=(int)720, format=(string)NV12, framerate=(fraction)30/1 ! nvvidconv ! video/x-raw, format=(string)BGRx ! videoconvert ! video/x-raw, format=(string)BGR ! appsink"
     cap = cv2.VideoCapture(pipeline, cv2.CAP_GSTREAMER)
 
     # Define HSV color range for red and yellow.
@@ -49,8 +50,8 @@ def camera_steering_control():
         yellow_pixel_count = cv2.countNonZero(mask_yellow)
 
         # Map the pixel counts from 0 to 100
-        red_pixel_count_mapped = (red_pixel_count**2 / (width * height / 5))
-        yellow_pixel_count_mapped = (yellow_pixel_count**2 / (width * height / 5))*1.3
+        red_pixel_count_mapped = (red_pixel_count**2 / (width * height / crop))
+        yellow_pixel_count_mapped = (yellow_pixel_count**2 / (width * height / crop))*1.3
 
 
         # Update the steer_output based on the detected colors.
@@ -69,19 +70,23 @@ def car_speed_control():
     while not stop_thread:  # Continue until the stop flag is set.
         with lock:
             current_steer_output = steer_output
-            car.set_direction("forward")  # start moving forward
+            
+        car.set_stop()
+        car.set_steer(current_steer_output)  # Apply the steering angle.
+        #time.sleep(0.1)  # Short delay to reduce CPU usage.
+        car.set_direction("forward")  # start moving forward
 
         # Determine the speed based on the steering angle.
-        if 30 <= current_steer_output <= 70:
+        if 40 <= current_steer_output <= 60:
             car.set_speed(0.9)  # Faster when going straight.
         else:
             car.set_speed(0.703)  # Slower when turning.
-
-        car.set_steer(current_steer_output)  # Apply the steering angle.
-        #time.sleep(0.01)  # Short delay to reduce CPU usage.
+        
+        time.sleep(0.1)  # Short delay to reduce CPU usage.
         
 
     car.set_stop()  # Stop the car when exiting the thread.
+    #car.cleanup()
     sys.exit()
 
 def stop_all_threads():
@@ -103,3 +108,4 @@ speed_thread.start()
 # The stop_all_threads() function would typically be called in response to an event (e.g., keyboard interrupt).
 # Uncomment the following line to simulate stopping the threads after a delay.
 time.sleep(30); stop_all_threads()  # For testing, stop threads after 10 seconds.
+sys.exit()
